@@ -1,6 +1,6 @@
 <template>
   <div id="card">
-    <header>{{title}}</header>
+    <header>{{title | capitalize}}</header>
     <div>
       <form v-on:submit="addItem">
         <input id="itemForm"/>
@@ -8,9 +8,10 @@
       </form>
     </div>
     <ul>
-      <li v-for="(item, index) in items">
+      <li v-for="(dino, index) in dinos">
         <button v-on:click="deleteItem(index)">x</button>
-        {{ item.text }}
+        <h4>{{ dino.text | capitalize }}</h4>
+        <span>The {{ dino.text | capitalize }} weighs {{ dino.weight }}.</span>
       </li>
     </ul>
   </div>
@@ -20,14 +21,30 @@
 /* global document */
 export default {
   name: 'card',
+  filters: {
+    capitalize: (w) => {
+      if (!w) return '';
+      const val = w.toString();
+      return val.charAt(0).toUpperCase() + val.slice(1);
+    },
+  },
     // DOM Mutation
   data() {
     return {
       title: 'Dinosaurs',
-      items: [
-        { text: 'Velociraptor' },
-        { text: 'Triceratops' },
-        { text: 'Stegosaurus' },
+      dinos: [
+        {
+          text: 'velociraptor',
+          weight: '15kg',
+        },
+        {
+          text: 'triceratops',
+          weight: '6,000kg',
+        },
+        {
+          text: 'stegosaurus',
+          weight: '2,500kg',
+        },
       ],
       addItem: (e) => {
         e.preventDefault();
