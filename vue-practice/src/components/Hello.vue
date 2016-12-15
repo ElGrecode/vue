@@ -17,6 +17,7 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <h3 class="boo">HAHAH</h3>
   </div>
 </template>
 
@@ -35,6 +36,9 @@ export default {
 <style scoped>
 h1, h2 {
   font-weight: normal;
+}
+h3.boo {
+  color: orange;
 }
 
 ul {

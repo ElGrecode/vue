@@ -9,9 +9,14 @@
     </div>
     <ul>
       <li v-for="(dino, index) in dinos">
-        <button v-on:click="deleteItem(index)">Make Extinct</button>
         <h4>{{ dino.text | capitalize }}</h4>
+        <button v-on:click="dino.quantity -= 1">-</button>
+          {{dino.quantity}}
+        <button v-on:click="dino.quantity += 1">+</button>
+        <button v-on:click="deleteItem(index)">Make Extinct</button>
+        <hr />
       </li>
+
     </ul>
     <ul>
       <li>Total Dinosaurs: {{ totalDinos }} <span>Updated: {{ dinosUpdated }}</span></li>
@@ -60,20 +65,31 @@ export default {
         e.preventDefault();
         const input = document.getElementById('itemForm');
         if (input.value !== '') {
-          this.items.push({
+          this.dinos.push({
             text: input.value,
           });
           input.value = '';
         }
       },
       deleteItem: (index) => {
-        this.items.splice(index, 1);
+        this.dinos.splice(index, 1);
       },
     };
   },
+  /* eslint-disable no-param-reassign */
   computed: {
-    totalDinos: card => card.dinos.reduce((p, c) => p + c.quantity, 0),
-    totalSpecies: card => card.dinos.length,
+    totalDinos: (card) => {
+      // NOTE: Although this works, it is a heavy MUTABLE ANTI-PATTERN
+      // THERE SHOULD BE NO SIDE EFFECTS WITHIN A COMPUTED PROPERTY
+      card.dinosUpdated += 1;
+      return card.dinos.reduce((p, c) => p + c.quantity, 0);
+    },
+    totalSpecies: (card) => {
+      // NOTE: Although this works, it is a heavy MUTABLE ANTI-PATTERN
+      // THERE SHOULD BE NO SIDE EFFECTS WITHIN A COMPUTED PROPERTY
+      card.speciesUpdated += 1;
+      return card.dinos.length;
+    },
   },
 };
 </script>
